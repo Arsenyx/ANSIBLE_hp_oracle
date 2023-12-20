@@ -1,0 +1,19 @@
+---
+- name: "Play 1"
+  hosts: localhost
+
+  tasks:
+    - name: "Task 1 of Play 1: Collect facts about local host"
+      ansible.builtin.setup:
+      filter:
+        - "ansible_date_time"
+
+    - name: "Task 2 of Play 1: Recording Variable"
+      set_fact:
+      TD: "{{ ansible_date_time.date }}"
+
+    - name: "Task 3 of Play 1: Creating directories"
+      file:
+        path: "Backups//{{ TD }}"
+        state: directory
+      run_once: true

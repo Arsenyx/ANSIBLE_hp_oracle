@@ -1,0 +1,14 @@
+---
+- name: install default Apache Web Server
+  hosts: staging_server_db 
+  become: yes
+
+
+  tasks:
+  - name: Install Apache Webserver
+    dnf: name=httpd state=latest
+
+
+  - name: Start Apache and enable it on the every boot
+    service: name=httpd state=started enabled=yes
+

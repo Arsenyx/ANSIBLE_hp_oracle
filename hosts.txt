@@ -1,0 +1,15 @@
+[staging_server_db]
+Oracle1 ansible_host=192.168.122.48
+Oracle2 ansible_host=192.168.122.28
+Oracle3 ansible_host=192.168.122.181
+
+[staging_server_web]
+Alpine1 ansible_host=192.168.122.234
+Alpine2 ansible_host=192.168.122.98
+Alpine3 ansible_host=192.168.122.60
+
+[all_servers:children]
+staging_server_db
+staging_server_web
+
+

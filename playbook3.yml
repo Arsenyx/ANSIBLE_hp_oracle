@@ -1,0 +1,27 @@
+---
+- name: Install Apache and Upload my Web Page
+  hosts: staging_server_web
+  become: yes
+
+  vars:
+   source_file: ./MyWebSite/index.html
+   destin_file: /var/www/html
+
+  tasks:
+  - name: Install Apache Web Server
+    apk: name=apache2 update_cache=yes state=latest
+
+  - name: Enable mod_rewrite
+    apache2_modules: name=rewrite state=present
+    notify: restart apache2
+
+  - name: Copy MyHomePage to server
+    copy: src={{ source_file }} dest={{ destin_file }} mode=0555
+    notify: restart apache2
+
+  - name: Start Webserver and make it enable on boot
+    service: name=apache2 state=started enabled=yes
+
+  handlers:
+  - name: restart apache2
+    service: name=apache2 state=restarted
